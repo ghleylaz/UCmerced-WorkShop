@@ -136,3 +136,36 @@ surveys_comm_spp <- surveys_complete %>%
   filter(species_id %in% species_counts$species_id)
 
 write.csv(surveys_comm_spp, file = "data_output/surveys_complete.csv")
+
+## Data Visulaization
+
+library(tidyverse)
+surveys_complete <- read.csv('data_output/surveys_complete.csv')
+
+## ggplot2
+
+ggplot(data = surveys_complete, aes(x= weight, y = hindfoot_length)) + geom_point(alpha= 0.8, aes(color = species_id))
+
+# alpha+ resolition
+
+## Challenge
+
+#Use what you just learned to create a scatter plot of weight over species_id with
+#the plot types showing in different colors. Is this a good way to show this type of data?
+
+ggplot(data = surveys_complete, aes(x= species_id, y = weight)) + geom_point(alpha= 0.8, aes(color = plot_type))
+
+
+## boxplot instead of a scatter
+
+ggplot(data = surveys_complete, aes(x = species_id, y = weight)) + 
+  geom_boxplot(aes(color = plot_type)) +
+  labs(x = "species",
+       y = "weight",
+       title = "plot")
+  
+
+
+
+
+
