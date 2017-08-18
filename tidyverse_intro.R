@@ -1,5 +1,5 @@
 surveys <- read.csv("data/portal_data_joined.csv")
-install.packages("tidyverse")
+#install.packages("tidyverse")
 library(tidyverse)
 
 # select the columns plot_id, species-id and weight
@@ -102,7 +102,37 @@ surveys %>%
   arrange(year)
   
 # 4.You saw above how to count the number of individuals of 
-# each sex using a combination of group_by() and tally(). How could you get the same result using group_by() and summarize()? Hint: see ?n.
+# each sex using a combination of group_by() and tally(). 
+# How could you get the same result using group_by() and summarize()? Hint: see ?n.
 
+surveys %>%
+  group_by(sex) %>%
+summarize(n())
 
+## Exporting Data
 
+surveys_complete <- surveys %>%
+  filter(species_id !="") %>% ## remove missing species_id
+  filter(!is.na(weight))  %>%
+  filter(!is.na(hindfoot_length))  %>%
+  filter(sex != "")
+
+surveys_complete <- surveys  %>%
+  filter(species_id !="",
+         !is.na(weight),
+         !is.na(hindfoot_length),
+         sex !="")
+
+# Extract the most common species-id
+
+species_counts <- surveys_complete %>%
+  group_by(species_id) %>%
+  tally %>%
+  filter( n >= 50)
+
+## only keep the most common species
+
+surveys_comm_spp <- surveys_complete %>%
+  filter(species_id %in% species_counts$species_id)
+
+write.csv(surveys_comm_spp, file = "data_output/surveys_complete.csv")
