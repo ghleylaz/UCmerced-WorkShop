@@ -1,2 +1,2 @@
-# UCmerced-WorkShop
-My repository at Carpentry Workshop
+# ucmerced-dc
+my repository at ucmerced 
