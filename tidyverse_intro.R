@@ -60,5 +60,49 @@ surveys %>%
  summarize(mean_weight = mean(weight, na.rm = T),
            min_weight = min(weight))
 
+## tally counts the total number of observations for the
+surveys %>%
+  
+group_by(sex) %>%
+  
+tally
+
+# 1. How many individuals were caught in each plot_type surveyed?
+
+  surveys %>%
+  group_by(plot_type) %>%
+  tally
+
+# 2. Use group_by() and summarize() to find the mean, min, and 
+# max hindfoot length for each species (using species_id).
+
+  surveys %>%
+select(hindfoot_length, species_id) %>%
+    filter(!is.na(hindfoot_length)) %>%
+    group_by(species_id) %>%
+    summarize(mean_length = mean(hindfoot_length),
+              min_length = min(hindfoot_length),
+              max_length = max(hindfoot_length))
+  
+  
+# 3.What was the heaviest animal measured in each year? 
+# Return the columns year,  genus, species_id, and weight.
+
+surveys %>%
+  select(year, genus, species_id, weight) %>%
+  group_by(year) %>%
+  top_n(1, weight) %>%
+
+  #answer 2
+  surveys %>%
+  filter(!is.na(weight)) %>%
+  group_by(year) %>%
+  filter(weight == max(weight)) %>%
+  select(year, genus, species, weight) %>%
+  arrange(year)
+  
+# 4.You saw above how to count the number of individuals of 
+# each sex using a combination of group_by() and tally(). How could you get the same result using group_by() and summarize()? Hint: see ?n.
+
 
 
